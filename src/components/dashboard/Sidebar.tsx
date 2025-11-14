@@ -105,7 +105,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       };
     } else {
       return {
-        container: `static w-64 transform transition-all duration-300 ease-in-out ${
+        container: `static transform transition-all duration-300 ease-in-out ${
           isCollapsed ? 'w-20' : 'w-64'
         }`,
         overlay: 'hidden'
