@@ -1,20 +1,24 @@
+
+
 'use client';
 
 import { useState } from 'react';
+import Sidebar from '../../components/dashboard/Sidebar';
+// import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import Sidebar from '@/components/dashboard/Sidebar';
+// import Sidebar from '@/components/dashboard/Sidebar';
 import Header from '@/components/dashboard/Header';
-// import { ThemeProvider } from '@/providers/ThemeProvider';
+import { ThemeProvider } from '../ThemeProvider';
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+    const { data: session, status } = useSession();
+    const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -34,28 +38,26 @@ export default function DashboardLayout({
     );
   }
 
-  if (!session) {
-    return null;
-  }
-
   return (
-    // <ThemeProvider>
-      <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-        <Sidebar 
-          isOpen={sidebarOpen} 
-          onClose={() => setSidebarOpen(false)} 
+    <ThemeProvider>
+
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Sidebar */}
+      <Sidebar 
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+       
         />
-        
-        <div className="flex-1 flex flex-col overflow-hidden">
+      
+      {/* Main content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
           <Header onMenuClick={() => setSidebarOpen(true)} />
-          
-          <main className="flex-1 overflow-auto p-6">
-            <div className="max-w-7xl mx-auto space-y-6">
-              {children}
-            </div>
-          </main>
-        </div>
+
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+          {children}
+        </main>
       </div>
-    // </ThemeProvider>
+    </div>
+        </ThemeProvider>
   );
 }

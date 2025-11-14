@@ -4,29 +4,22 @@
 import StatsCards from '@/components/dashboard/StatsCards';
 import Chart from '@/components/dashboard/Chart';
 import RecentActivity from '@/components/dashboard/RecentActivity';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function DashboardPage() {
-  // const { theme } = useTheme();
+
+  const theme = useTheme()
 
   return (
     <div className="space-y-6">
-      {/* Header de bienvenida */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-6 text-white">
-        <h1 className="text-2xl font-bold mb-2">
-          ¡Bienvenido de nuevo!
-        </h1>
-        <p className="opacity-90">
-          Aquí tienes un resumen de tu actividad reciente y métricas importantes.
-        </p>
-      </div>
-
+    
       {/* Estadísticas */}
       <StatsCards />
 
       {/* Gráfico y Actividad */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          {/* <Chart darkMode={theme === 'dark'} /> */}
+          <Chart/>
         </div>
         <div className="lg:col-span-1">
           <RecentActivity />
