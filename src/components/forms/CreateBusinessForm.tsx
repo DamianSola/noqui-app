@@ -6,10 +6,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 // import axios from 'axios';
 import { createBusiness } from '@/services/business';
+import { useSession } from 'next-auth/react';
+
 
 interface CreateCompanyData {
   name: string;
   guests: string[];
+  ownerId?: string;
 }
 
 const CreateCompanyForm: React.FC = () => {
@@ -17,17 +20,39 @@ const CreateCompanyForm: React.FC = () => {
   const [formData, setFormData] = useState<CreateCompanyData>({
     name: '',
     guests: [],
+    ownerId: '',
   });
   const [guestEmail, setGuestEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const {data} = useSession();
+
+  let token: string  = "";
+  let ownerId: string = "ID_DEL_USUARIO_LOGUEADO";
+
+  if(data && data.user) {
+    // @ts-ignore
+    ownerId = data.user.data.user.id;
+    // @ts-ignore
+    token = data.user.data.token;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    const response = createBusiness(formData, 'your-auth-token-here')
+    const response = await createBusiness({...formData, ownerId: ownerId}, token)
+
+    console.log(response);
+
+    if (response.success) {
+      router.push('/dashboard/negocios');
+      router.refresh();
+    } else {
+      setError(response.message || 'Error al crear la empresa. Por favor, intenta nuevamente.');
+    }
 
     // try {
     //   const response = await axios.post('/api/business', formData);
@@ -45,6 +70,7 @@ const CreateCompanyForm: React.FC = () => {
     // } finally {
     //   setLoading(false);
     // }
+
   };
 
   const handleAddGuest = () => {
@@ -77,13 +103,13 @@ const CreateCompanyForm: React.FC = () => {
         {/* Header */}
         <div className="mb-8">
           <Link
-            href="/companies"
+            href="/negocios"
             className="inline-flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 mb-4"
           >
-            ← Volver a empresas
+            ← Volver a mis negocios
           </Link>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Crear Nueva Empresa
+            Agregar negocio nuevo
           </h1>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Completa la información para crear una nueva empresa y compartirla con tu equipo.

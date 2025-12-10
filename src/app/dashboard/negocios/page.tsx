@@ -37,7 +37,7 @@ const CompaniesPage: React.FC<CompaniesPageProps> = () => {
     token = data.user.data.token;
   }
 
-  console.log(ownerId)
+  // console.log(ownerId)
 
 
   useEffect(() => {

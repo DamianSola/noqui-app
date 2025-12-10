@@ -16,7 +16,8 @@ export const getCompanyByOwnerId = async (ownerId: string, token?: string) => {
 };
 
 
-export const createBusiness = async (businessData: { name: string; guests: string[] }, token: string) => {
+export const createBusiness = async (businessData: { name: string; guests: string[], ownerId: string }, token: string) => {
+  console.log("Creating business with data:", businessData);
   const config = {
     headers: { Authorization: `Bearer ${token}` }
   };

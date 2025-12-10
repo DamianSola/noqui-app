@@ -49,7 +49,7 @@ const CompaniesSection: React.FC<BusinessSectionProps> = ({
               Aún no tienes empresas creadas
             </p>
             <Link 
-              href="/dashboard/companies/new"
+              href="/dashboard/negocios/new"
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
             >
               Crear primera empresa
@@ -66,13 +66,13 @@ const CompaniesSection: React.FC<BusinessSectionProps> = ({
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Tus Empresas
+            Tus Negocios
           </h1>
           <Link 
-            href="/companies/new"
+            href="/dashboard/negocios/new"
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
           >
-            Nueva Empresa
+            Nuevo Negocio
           </Link>
         </div>
 
