@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       // Enviar datos del usuario a la sesión
-      session.user = token.user as any;
+      session.user = token.User as any;
       
       // Agregar token de acceso a la sesión si está disponible
       if (token.user?.token) {

@@ -13,12 +13,39 @@ import {
   Lock,
   Globe
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Session } from 'inspector/promises';
+
+interface userData {
+  name: string;
+  email: string;
+  role: string;
+  id: string
+}
+interface SessionData {
+  user?: {
+    data?: {
+      user: userData;
+    };
+  };
+}
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+
+  const [user, setUser] = useState<userData | undefined>()
+
+  const { data: session, status } = useSession();
+ 
+
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+useEffect(() => {
+  const userData = (session as SessionData)?.user?.data?.user;
+  if (userData) {
+    setUser(userData);
+  }
+}, [session]);
 
   const handleLogout = async () => {
     try {
@@ -102,20 +129,20 @@ export default function ProfilePage() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
             <div className="text-center">
               <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
-                {session.user?.name?.charAt(0).toUpperCase() || 'U'}
+                {user?.name.charAt(0).toUpperCase() || 'U'}
               </div>
               
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {session.user?.name || 'Usuario'}
+                {user?.name || 'Usuario'}
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
-                {session.user?.role || 'Usuario'}
+                {user?.role || 'Usuario'}
               </p>
               
               <div className="mt-4 space-y-3">
                 <div className="flex items-center justify-center space-x-2 text-gray-600 dark:text-gray-400">
                   <Mail className="w-4 h-4" />
-                  <span className="text-sm">{session.user?.email}</span>
+                  <span className="text-sm">{user?.email}</span>
                 </div>
                 
                 <div className="flex items-center justify-center space-x-2 text-gray-600 dark:text-gray-400">
@@ -201,17 +228,17 @@ export default function ProfilePage() {
               Información de Sesión
             </h3>
             <div className="space-y-3">
-              <div className="flex justify-between items-center py-2">
+              {/* <div className="flex justify-between items-center py-2">
                 <span className="text-gray-600 dark:text-gray-400">ID de Usuario:</span>
                 <span className="font-mono text-sm text-gray-900 dark:text-white">
-                  {session.user?.id || 'N/A'}
+                  {user?.id || 'N/A'}
                 </span>
-              </div>
+              </div> */}
               
               <div className="flex justify-between items-center py-2">
                 <span className="text-gray-600 dark:text-gray-400">Rol:</span>
                 <span className="text-gray-900 dark:text-white capitalize">
-                  {session.user?.role || 'usuario'}
+                  {user?.role || 'usuario'}
                 </span>
               </div>
               

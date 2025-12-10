@@ -32,7 +32,8 @@ interface UserData {
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Usuarios', href: '/dashboard/usuarios', icon: User },
+  // { name: 'Usuarios', href: '/usuarios', icon: User }, // borrar
+  {name: 'Mis negocios', href: '/dashboard/negocios', icon: Users },
   { name: 'Productos', href: '/dashboard/productos', icon: Box },
   { name: 'Clientes', href: '/dashboard/clientes', icon: Users },
   { name: 'Analítica', href: '/dashboard/actividad', icon: Activity },

@@ -10,9 +10,12 @@ export default function LandingPage() {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
+
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+
 
   const goToRegister = () => {
    ;

@@ -33,7 +33,6 @@ export default function LoginForm() {
         redirect: false,
       });
 
-      console.log(result, "se supone que aca se muestran los datos del ususario")
 
       if (result?.error) {
         setError(result.error);
