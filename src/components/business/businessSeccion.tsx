@@ -105,13 +105,13 @@ const CompaniesSection: React.FC<BusinessSectionProps> = ({
 
               <div className="mt-6 flex space-x-3">
                 <Link
-                  href={`/companies/${business.id}`}
+                  href={`/dashboard/negocios/${business.id}`}
                   className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md transition-colors"
                 >
                   Ver detalles
                 </Link>
                 <Link
-                  href={`/companies/${business.id}/edit`}
+                  href={`/dashboard/negocios/${business.id}/edit`}
                   className="flex-1 text-center px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/50 hover:bg-blue-100 dark:hover:bg-blue-900 rounded-md transition-colors"
                 >
                   Editar

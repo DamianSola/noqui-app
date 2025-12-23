@@ -38,10 +38,7 @@ const CompaniesPage: React.FC<CompaniesPageProps> = () => {
   }
 
   // console.log(ownerId)
-
-
-  useEffect(() => {
-    const fetchCompanies = async () => {
+ const fetchCompanies = async () => {
       try {
         const data = await getCompanyByOwnerId(ownerId, token);
         setBusiness(data.data);
@@ -49,6 +46,8 @@ const CompaniesPage: React.FC<CompaniesPageProps> = () => {
         console.error("Error fetching companies:", error);
       }
     };
+
+  useEffect(() => {
 
     fetchCompanies();
   }, [ownerId]);
