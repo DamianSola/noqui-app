@@ -6,8 +6,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Mi App - Autenticación',
-  description: 'Sistema de autenticación robusto',
+  title: 'Holos',
+  description: 'gestion de negocios',
 };
 
 export default function RootLayout({

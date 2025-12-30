@@ -3,7 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import holosImage from '../../public/holos-logo.svg';
 
 
 export default function LandingPage() {
@@ -70,8 +72,16 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
             className="flex items-center space-x-2"
           >
-            <div className="w-8 h-8 bg-blue-500 rounded-lg"></div>
-            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">Nexus</span>
+            {/* <div className="w-8 h-8 bg-blue-500 rounded-lg"></div> */}
+            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              <Image
+              width={500}
+              height={100}
+              src={holosImage}
+              alt="Holos Logo"
+              className="w-56 h-auto"
+              />
+            </span>
           </motion.div>
           
           <motion.div

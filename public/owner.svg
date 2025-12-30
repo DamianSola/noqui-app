@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+  <defs>
+    <!-- Navy + blue gradient for the tie -->
+    <linearGradient id="tieGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1f4a"/>
+      <stop offset="55%" stop-color="#133a86"/>
+      <stop offset="100%" stop-color="#2f86ff"/>
+    </linearGradient>
+
+    <!-- Subtle highlight -->
+    <linearGradient id="tieHighlight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon -->
+  <g transform="translate(120,60)">
+    <!-- Circle -->
+    <circle cx="140" cy="140" r="110" fill="none" stroke="#0b1f4a" stroke-width="12"/>
+
+    <!-- Tie (knot) -->
+    <path d="M140 70
+             C128 70 116 70 110 78
+             L126 112
+             C133 121 147 121 154 112
+             L170 78
+             C164 70 152 70 140 70 Z"
+          fill="#0b1f4a"/>
+
+    <!-- Tie body -->
+    <path d="M126 118
+             L154 118
+             L170 250
+             L140 280
+             L110 250 Z"
+          fill="url(#tieGrad)"/>
+
+    <!-- Small bottom cut / shine (to mimic the white notch) -->
+    <path d="M140 280 L126 258 L154 258 Z" fill="#ffffff"/>
+
+    <!-- Soft highlight on tie -->
+    <path d="M129 124 L152 124 L163 244 L140 266 L117 244 Z"
+          fill="url(#tieHighlight)"/>
+  </g>
+
+  <!-- Text -->
+  <text x="520" y="235"
+        font-family="Inter, Poppins, 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+        font-size="140"
+        font-weight="800"
+        fill="#0b1f4a"
+        letter-spacing="-2">
+    owner
+  </text>
+</svg>
