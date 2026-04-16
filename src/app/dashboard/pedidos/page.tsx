@@ -42,44 +42,63 @@ export default function PedidosPage() {
 
   const getEstadoColor = (estado: string) => {
     const colors = {
-      pendiente: 'bg-yellow-100 text-yellow-800',
-      preparando: 'bg-blue-100 text-blue-800',
-      listo: 'bg-green-100 text-green-800',
-      entregado: 'bg-gray-100 text-gray-800'
+      pendiente:
+        'bg-amber-100 text-amber-900 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800',
+      preparando:
+        'bg-blue-100 text-blue-900 dark:bg-blue-950/50 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800',
+      listo:
+        'bg-emerald-100 text-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800',
+      entregado:
+        'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-600'
     };
     return colors[estado as keyof typeof colors];
   };
 
+  const getTipoColor = (tipo: Pedido['tipo']) =>
+    tipo === 'local'
+      ? 'bg-violet-100 text-violet-900 dark:bg-violet-950/50 dark:text-violet-300 border border-violet-200/80 dark:border-violet-800'
+      : 'bg-orange-100 text-orange-900 dark:bg-orange-950/50 dark:text-orange-300 border border-orange-200/80 dark:border-orange-800';
+
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Gestión de Pedidos</h1>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+            Gestión de Pedidos
+          </h1>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            Seguimiento de pedidos y totales del día.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-slate-950"
+        >
           + Nuevo Pedido
         </button>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-gray-500">Pedidos Hoy</h3>
-          <p className="text-2xl font-bold">{pedidos.length}</p>
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Pedidos Hoy</h3>
+          <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-50">{pedidos.length}</p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-gray-500">Pendientes</h3>
-          <p className="text-2xl font-bold text-yellow-600">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Pendientes</h3>
+          <p className="mt-2 text-2xl font-semibold text-amber-600 dark:text-amber-400">
             {pedidos.filter(p => p.estado === 'pendiente').length}
           </p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-gray-500">En Preparación</h3>
-          <p className="text-2xl font-bold text-blue-600">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">En Preparación</h3>
+          <p className="mt-2 text-2xl font-semibold text-blue-600 dark:text-blue-400">
             {pedidos.filter(p => p.estado === 'preparando').length}
           </p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-gray-500">Total del Día</h3>
-          <p className="text-2xl font-bold">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Total del Día</h3>
+          <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-50">
             ${pedidos.reduce((acc, p) => acc + p.total, 0)}
           </p>
         </div>
@@ -88,41 +107,54 @@ export default function PedidosPage() {
       {/* Lista de Pedidos */}
       <div className="space-y-4">
         {pedidos.map((pedido) => (
-          <div key={pedido.id} className="bg-white rounded-lg shadow p-4">
-            <div className="flex justify-between items-start mb-3">
+          <div
+            key={pedido.id}
+            className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+          >
+            <div className="mb-3 flex items-start justify-between">
               <div>
-                <h3 className="font-bold text-lg">Pedido #{pedido.id}</h3>
-                <p className="text-gray-600">{pedido.cliente}</p>
-                <span className={`px-2 py-1 rounded text-sm ${getEstadoColor(pedido.estado)}`}>
-                  {pedido.estado.toUpperCase()}
-                </span>
-                <span className={`ml-2 px-2 py-1 rounded text-sm ${
-                  pedido.tipo === 'local' ? 'bg-purple-100 text-purple-800' : 'bg-orange-100 text-orange-800'
-                }`}>
-                  {pedido.tipo.toUpperCase()}
-                </span>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
+                  Pedido #{pedido.id}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400">{pedido.cliente}</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <span className={`rounded-md px-2 py-1 text-xs font-semibold uppercase ${getEstadoColor(pedido.estado)}`}>
+                    {pedido.estado}
+                  </span>
+                  <span className={`rounded-md px-2 py-1 text-xs font-semibold uppercase ${getTipoColor(pedido.tipo)}`}>
+                    {pedido.tipo}
+                  </span>
+                </div>
               </div>
               <div className="text-right">
-                <p className="font-bold text-lg">${pedido.total}</p>
-                <p className="text-sm text-gray-500">{pedido.fecha}</p>
+                <p className="text-lg font-bold text-slate-900 dark:text-slate-50">${pedido.total}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{pedido.fecha}</p>
               </div>
             </div>
-            
-            <div className="border-t pt-3">
-              <h4 className="font-semibold mb-2">Productos:</h4>
+
+            <div className="border-t border-slate-200 pt-3 dark:border-slate-700">
+              <h4 className="mb-2 font-semibold text-slate-900 dark:text-slate-100">Productos:</h4>
               {pedido.productos.map((producto, index) => (
-                <div key={index} className="flex justify-between text-sm">
-                  <span>{producto.cantidad}x {producto.nombre}</span>
+                <div key={index} className="flex justify-between text-sm text-slate-700 dark:text-slate-300">
+                  <span>
+                    {producto.cantidad}x {producto.nombre}
+                  </span>
                   <span>${producto.precio * producto.cantidad}</span>
                 </div>
               ))}
             </div>
 
-            <div className="flex justify-end space-x-2 mt-3">
-              <button className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+            <div className="mt-3 flex justify-end space-x-2">
+              <button
+                type="button"
+                className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              >
                 Actualizar Estado
               </button>
-              <button className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700">
+              <button
+                type="button"
+                className="rounded-lg bg-slate-600 px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 dark:bg-slate-700 dark:hover:bg-slate-600"
+              >
                 Ver Detalles
               </button>
             </div>

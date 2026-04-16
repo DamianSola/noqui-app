@@ -4,7 +4,8 @@ import api from '@/lib/axios';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
+    console.log(body);
     const response = await api.post('/auth/register', body);
     
     return NextResponse.json(response.data, { status: 201 });

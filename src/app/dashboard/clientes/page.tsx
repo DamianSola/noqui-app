@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { getCustomerbyOwner } from '@/services/customer';
 import { useRouter } from 'next/navigation';
@@ -59,15 +58,36 @@ export default function ClientesPage() {
   }, []);
 
   if (loading) {
-    return <div className="p-6">Cargando clientes...</div>;
+    return (
+      <div className="p-6">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div className="flex items-center gap-3">
+            <div className="h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-transparent dark:border-slate-700 dark:border-t-transparent" />
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Cargando clientes...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Gestión de Clientes</h1>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        onClick={() => { router.push('/dashboard/clientes/nuevo'); }}
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+            Gestión de Clientes
+          </h1>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            Administra tus clientes, revisa su contacto y actividad.
+          </p>
+        </div>
+        <button
+          className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-slate-950"
+          onClick={() => {
+            router.push('/dashboard/clientes/nuevo');
+          }}
         >
           + Nuevo Cliente
         </button>
@@ -75,46 +95,46 @@ export default function ClientesPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-gray-500">Total Clientes</h3>
-          <p className="text-2xl font-bold">{clientes.length}</p>
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Clientes</h3>
+          <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-50">{clientes.length}</p>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-gray-500">Nuevos Hoy</h3>
-          <p className="text-2xl font-bold text-green-600">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Nuevos Hoy</h3>
+          <p className="mt-2 text-2xl font-semibold text-emerald-600 dark:text-emerald-400">
             {clientes.filter(c =>
               new Date(c.createdAt).toDateString() === new Date().toDateString()
             ).length}
           </p>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-gray-500">Última actualización</h3>
-          <p className="text-2xl font-bold">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Última actualización</h3>
+          <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-50">
             {clientes.length > 0
               ? new Date(clientes[0].updatedAt).toLocaleDateString()
               : "-"}
           </p>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-gray-500">Páginas</h3>
-          <p className="text-2xl font-bold">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Páginas</h3>
+          <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-50">
             {pagination?.totalPages ?? 1}
           </p>
         </div>
       </div>
 
       {/* Tabla */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-50">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 text-slate-700 dark:bg-slate-900/60 dark:text-slate-300">
             <tr>
-              <th className="p-3 text-left">Cliente</th>
-              <th className="p-3 text-left">Contacto</th>
-              <th className="p-3 text-left">Registrado</th>
-              <th className="p-3 text-left">Acciones</th>
+              <th className="px-4 py-3 text-left font-semibold">Cliente</th>
+              <th className="px-4 py-3 text-left font-semibold">Contacto</th>
+              <th className="px-4 py-3 text-left font-semibold">Registrado</th>
+              <th className="px-4 py-3 text-left font-semibold">Acciones</th>
             </tr>
           </thead>
 
@@ -131,32 +151,32 @@ export default function ClientesPage() {
     return (
       <tr
         key={cliente.id}
-        className="border-t transition hover:bg-gray-50"
+        className="border-t border-slate-200 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/40"
       >
         {/* Nombre */}
-        <td className="p-4 font-medium text-gray-900">
+        <td className="px-4 py-4 font-medium text-slate-900 dark:text-slate-50">
           {cliente.name}
         </td>
 
         {/* Contacto */}
-        <td className="p-4">
-          <div className="text-sm text-gray-700">
+        <td className="px-4 py-4">
+          <div className="text-slate-700 dark:text-slate-200">
             {cliente.email}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             {cliente.phone || "Sin teléfono"}
           </div>
         </td>
 
         {/* Fecha */}
-        <td className="p-4 text-sm text-gray-600">
+        <td className="px-4 py-4 text-slate-600 dark:text-slate-300">
           {new Date(cliente.createdAt).toLocaleDateString()}
         </td>
 
         {/* Acciones */}
-        <td className="p-4">
+        <td className="px-4 py-4">
           <div className="flex items-center gap-3">
-            <button className="text-sm font-medium text-blue-600 hover:text-blue-800">
+            <button className="text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
               Ver historial
             </button>
 
@@ -165,7 +185,7 @@ export default function ClientesPage() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-9 h-9 rounded-full bg-green-500 hover:bg-green-600 transition"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 shadow-sm transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:ring-offset-slate-900"
                 title="Contactar por WhatsApp"
               >
                 {/* Icono WhatsApp */}

@@ -149,14 +149,22 @@ export default function CalendarioPage() {
 
   const getColorTipo = (tipo: Evento['tipo']) => {
     const colores = {
-      pedido: 'bg-blue-100 text-blue-800 border-blue-200',
-      entrega: 'bg-green-100 text-green-800 border-green-200',
-      reunion: 'bg-purple-100 text-purple-800 border-purple-200',
-      mantenimiento: 'bg-orange-100 text-orange-800 border-orange-200',
-      otro: 'bg-gray-100 text-gray-800 border-gray-200'
+      pedido:
+        'border border-blue-200 bg-blue-100 text-blue-900 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200',
+      entrega:
+        'border border-emerald-200 bg-emerald-100 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200',
+      reunion:
+        'border border-violet-200 bg-violet-100 text-violet-900 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-200',
+      mantenimiento:
+        'border border-amber-200 bg-amber-100 text-amber-900 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-200',
+      otro:
+        'border border-slate-200 bg-slate-100 text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200'
     };
     return colores[tipo];
   };
+
+  const inputClass =
+    'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:border-slate-600 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500';
 
   const agregarEvento = (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,64 +181,86 @@ export default function CalendarioPage() {
   };
 
   return (
-    <div className="p-6 dark">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Calendario</h1>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+    <div className="p-6">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+            Calendario
+          </h1>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            Eventos, pedidos y recordatorios.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-slate-950"
+        >
           + Nuevo Evento
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Calendario Principal */}
-        <div className="lg:col-span-2 bg-white rounded-lg shadow p-6">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:col-span-2">
           {/* Controles */}
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center space-x-4">
-              <button 
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+              <button
+                type="button"
                 onClick={mesAnterior}
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                className="rounded-lg p-2 text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 ←
               </button>
-              <h2 className="text-xl font-bold">
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
                 {meses[fechaActual.getMonth()]} {fechaActual.getFullYear()}
               </h2>
-              <button 
+              <button
+                type="button"
                 onClick={mesSiguiente}
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                className="rounded-lg p-2 text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 →
               </button>
-              <button 
+              <button
+                type="button"
                 onClick={hoy}
-                className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm"
+                className="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
               >
                 Hoy
               </button>
             </div>
-            
-            <div className="flex space-x-2">
-              <button 
+
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
                 onClick={() => setVista('mes')}
-                className={`px-3 py-1 rounded-lg text-sm ${
-                  vista === 'mes' ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  vista === 'mes'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'
                 }`}
               >
                 Mes
               </button>
-              <button 
+              <button
+                type="button"
                 onClick={() => setVista('semana')}
-                className={`px-3 py-1 rounded-lg text-sm ${
-                  vista === 'semana' ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  vista === 'semana'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'
                 }`}
               >
                 Semana
               </button>
-              <button 
+              <button
+                type="button"
                 onClick={() => setVista('dia')}
-                className={`px-3 py-1 rounded-lg text-sm ${
-                  vista === 'dia' ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  vista === 'dia'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'
                 }`}
               >
                 Día
@@ -243,7 +273,10 @@ export default function CalendarioPage() {
             <div className="grid grid-cols-7 gap-1">
               {/* Encabezado de días */}
               {nombresDias.map(dia => (
-                <div key={dia} className="p-2 text-center font-semibold text-gray-600 text-sm">
+                <div
+                  key={dia}
+                  className="p-2 text-center text-sm font-semibold text-slate-600 dark:text-slate-400"
+                >
                   {dia}
                 </div>
               ))}
@@ -252,22 +285,24 @@ export default function CalendarioPage() {
               {dias.map((dia, index) => (
                 <div
                   key={index}
-                  className={`min-h-24 p-2 border rounded-lg ${
-                    dia.esMesActual 
-                      ? 'bg-white hover:bg-gray-50' 
-                      : 'bg-gray-50 text-gray-400'
+                  className={`min-h-24 rounded-lg border p-2 transition-colors ${
+                    dia.esMesActual
+                      ? 'border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800/60'
+                      : 'border-slate-100 bg-slate-50 text-slate-400 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-500'
                   } ${
-                    dia.fecha.toDateString() === new Date().toDateString() 
-                      ? 'border-blue-500 border-2' 
-                      : 'border-gray-200'
+                    dia.fecha.toDateString() === new Date().toDateString()
+                      ? 'border-2 border-blue-500 ring-1 ring-blue-500/20 dark:border-blue-400 dark:ring-blue-400/20'
+                      : ''
                   }`}
                 >
-                  <div className="flex justify-between items-start mb-1">
-                    <span className={`text-sm font-medium ${
-                      dia.fecha.toDateString() === new Date().toDateString()
-                        ? 'bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center'
-                        : ''
-                    }`}>
+                  <div className="mb-1 flex items-start justify-between">
+                    <span
+                      className={`flex h-6 w-6 items-center justify-center text-sm font-medium ${
+                        dia.fecha.toDateString() === new Date().toDateString()
+                          ? 'rounded-full bg-blue-600 text-white dark:bg-blue-500'
+                          : 'text-slate-800 dark:text-slate-200'
+                      }`}
+                    >
                       {dia.fecha.getDate()}
                     </span>
                   </div>
@@ -284,7 +319,7 @@ export default function CalendarioPage() {
                       </div>
                     ))}
                     {dia.eventos.length > 2 && (
-                      <div className="text-xs text-gray-500 text-center">
+                      <div className="text-center text-xs text-slate-500 dark:text-slate-400">
                         +{dia.eventos.length - 2} más
                       </div>
                     )}
@@ -296,9 +331,9 @@ export default function CalendarioPage() {
 
           {/* Vista Semana (simplificada) */}
           {vista === 'semana' && (
-            <div className="text-center p-8 text-gray-500">
+            <div className="text-center p-8 text-slate-500 dark:text-slate-400">
               Vista Semanal - En desarrollo
-              <div className="mt-4 text-sm">
+              <div className="mt-4 text-sm text-slate-600 dark:text-slate-500">
                 Próximamente podrás ver tu semana de trabajo organizada
               </div>
             </div>
@@ -306,9 +341,9 @@ export default function CalendarioPage() {
 
           {/* Vista Día (simplificada) */}
           {vista === 'dia' && (
-            <div className="text-center p-8 text-gray-500">
+            <div className="text-center p-8 text-slate-500 dark:text-slate-400">
               Vista Diaria - En desarrollo
-              <div className="mt-4 text-sm">
+              <div className="mt-4 text-sm text-slate-600 dark:text-slate-500">
                 Próximamente podrás gestionar tu día hora por hora
               </div>
             </div>
@@ -318,28 +353,28 @@ export default function CalendarioPage() {
         {/* Panel Lateral */}
         <div className="space-y-6">
           {/* Formulario Nuevo Evento */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-bold mb-4">Nuevo Evento</h3>
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <h3 className="mb-4 text-lg font-semibold text-slate-900 dark:text-slate-50">Nuevo Evento</h3>
             <form onSubmit={agregarEvento} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Título
                 </label>
                 <input
                   type="text"
                   required
-                  className="w-full p-2 border rounded-lg"
+                  className={inputClass}
                   value={nuevoEvento.titulo}
                   onChange={(e) => setNuevoEvento({...nuevoEvento, titulo: e.target.value})}
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Descripción
                 </label>
                 <textarea
-                  className="w-full p-2 border rounded-lg"
+                  className={inputClass}
                   rows={3}
                   value={nuevoEvento.descripcion}
                   onChange={(e) => setNuevoEvento({...nuevoEvento, descripcion: e.target.value})}
@@ -348,26 +383,26 @@ export default function CalendarioPage() {
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Fecha
                   </label>
                   <input
                     type="date"
                     required
-                    className="w-full p-2 border rounded-lg"
+                    className={inputClass}
                     value={nuevoEvento.fecha}
                     onChange={(e) => setNuevoEvento({...nuevoEvento, fecha: e.target.value})}
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Hora
                   </label>
                   <input
                     type="time"
                     required
-                    className="w-full p-2 border rounded-lg"
+                    className={inputClass}
                     value={nuevoEvento.hora}
                     onChange={(e) => setNuevoEvento({...nuevoEvento, hora: e.target.value})}
                   />
@@ -375,11 +410,11 @@ export default function CalendarioPage() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Tipo
                 </label>
                 <select
-                  className="w-full p-2 border rounded-lg"
+                  className={inputClass}
                   value={nuevoEvento.tipo}
                   onChange={(e) => setNuevoEvento({...nuevoEvento, tipo: e.target.value as Evento['tipo']})}
                 >
@@ -392,12 +427,12 @@ export default function CalendarioPage() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Cliente (opcional)
                 </label>
                 <input
                   type="text"
-                  className="w-full p-2 border rounded-lg"
+                  className={inputClass}
                   value={nuevoEvento.cliente}
                   onChange={(e) => setNuevoEvento({...nuevoEvento, cliente: e.target.value})}
                 />
@@ -405,7 +440,7 @@ export default function CalendarioPage() {
               
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                className="w-full rounded-lg bg-blue-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 Agregar Evento
               </button>
@@ -413,22 +448,22 @@ export default function CalendarioPage() {
           </div>
 
           {/* Próximos Eventos */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-bold mb-4">Próximos Eventos</h3>
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <h3 className="mb-4 text-lg font-semibold text-slate-900 dark:text-slate-50">Próximos Eventos</h3>
             <div className="space-y-3">
               {eventos.slice(0, 5).map(evento => (
                 <div
                   key={evento.id}
-                  className="p-3 border rounded-lg hover:bg-gray-50"
+                  className="rounded-lg border border-slate-200 p-3 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800/50"
                 >
-                  <div className="flex justify-between items-start mb-1">
-                    <h4 className="font-semibold text-sm">{evento.titulo}</h4>
-                    <span className={`px-2 py-1 rounded text-xs ${getColorTipo(evento.tipo)}`}>
+                  <div className="mb-1 flex items-start justify-between gap-2">
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{evento.titulo}</h4>
+                    <span className={`shrink-0 rounded px-2 py-0.5 text-xs font-medium ${getColorTipo(evento.tipo)}`}>
                       {evento.tipo}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-600 mb-2">{evento.descripcion}</p>
-                  <div className="flex justify-between text-xs text-gray-500">
+                  <p className="mb-2 text-xs text-slate-600 dark:text-slate-400">{evento.descripcion}</p>
+                  <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
                     <span>{evento.fecha} a las {evento.hora}</span>
                     {evento.cliente && <span>{evento.cliente}</span>}
                   </div>
@@ -438,28 +473,28 @@ export default function CalendarioPage() {
           </div>
 
           {/* Leyenda */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-bold mb-4">Leyenda</h3>
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <h3 className="mb-4 text-lg font-semibold text-slate-900 dark:text-slate-50">Leyenda</h3>
             <div className="space-y-2">
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-blue-100 border border-blue-200 rounded mr-2"></div>
-                <span className="text-sm">Pedidos</span>
+                <div className="mr-2 h-3 w-3 rounded border border-blue-200 bg-blue-100 dark:border-blue-800 dark:bg-blue-950/60" />
+                <span className="text-sm text-slate-700 dark:text-slate-300">Pedidos</span>
               </div>
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-green-100 border border-green-200 rounded mr-2"></div>
-                <span className="text-sm">Entregas</span>
+                <div className="mr-2 h-3 w-3 rounded border border-emerald-200 bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/60" />
+                <span className="text-sm text-slate-700 dark:text-slate-300">Entregas</span>
               </div>
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-purple-100 border border-purple-200 rounded mr-2"></div>
-                <span className="text-sm">Reuniones</span>
+                <div className="mr-2 h-3 w-3 rounded border border-violet-200 bg-violet-100 dark:border-violet-800 dark:bg-violet-950/60" />
+                <span className="text-sm text-slate-700 dark:text-slate-300">Reuniones</span>
               </div>
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-orange-100 border border-orange-200 rounded mr-2"></div>
-                <span className="text-sm">Mantenimiento</span>
+                <div className="mr-2 h-3 w-3 rounded border border-amber-200 bg-amber-100 dark:border-amber-800 dark:bg-amber-950/60" />
+                <span className="text-sm text-slate-700 dark:text-slate-300">Mantenimiento</span>
               </div>
               <div className="flex items-center">
-                <div className="w-3 h-3 bg-gray-100 border border-gray-200 rounded mr-2"></div>
-                <span className="text-sm">Otros</span>
+                <div className="mr-2 h-3 w-3 rounded border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800" />
+                <span className="text-sm text-slate-700 dark:text-slate-300">Otros</span>
               </div>
             </div>
           </div>
