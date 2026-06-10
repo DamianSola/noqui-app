@@ -128,10 +128,12 @@ interface ChartProps {
   darkMode?: boolean;
 }
 
-export default function Chart({ darkMode = false }: ChartProps) {
-  return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-      <Line data={data} options={darkMode ? darkOptions : options} />
-    </div>
-  );
-}
+////eliminar esta module
+
+// export default function Chart({ darkMode = false }: ChartProps) {
+//   return (
+//     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+//       <Line data={data} options={darkMode ? darkOptions : options} />
+//     </div>
+//   );
+// }

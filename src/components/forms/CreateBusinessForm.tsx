@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 // import axios from 'axios';
-import { createBusiness } from '@/services/business';
+import { businessService } from '@/services/business';
 import { useSession } from 'next-auth/react';
 
 
@@ -33,9 +33,9 @@ const CreateCompanyForm: React.FC = () => {
 
   if(data && data.user) {
     // @ts-ignore
-    ownerId = data.user.data.user.id;
+    ownerId = data.user.id;
     // @ts-ignore
-    token = data.user.data.token;
+    // token = data.accessToken;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,15 +43,15 @@ const CreateCompanyForm: React.FC = () => {
     setLoading(true);
     setError('');
 
-    const response = await createBusiness({...formData, ownerId: ownerId}, token)
+    const response = await businessService.create({...formData, ownerId: ownerId})
 
     console.log(response);
 
-    if (response.success) {
+    if (response) {
       router.push('/dashboard/negocios');
       router.refresh();
     } else {
-      setError(response.message || 'Error al crear la empresa. Por favor, intenta nuevamente.');
+      setError(response || 'Error al crear la empresa. Por favor, intenta nuevamente.');
     }
 
     // try {

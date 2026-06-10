@@ -9,7 +9,7 @@ import { Menu } from 'lucide-react';
 interface HeaderProps {
   onMenuClick: () => void;
 }
-
+//eliminar este module
 export default function Header({ onMenuClick }: HeaderProps) {
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-4">

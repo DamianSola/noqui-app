@@ -3,10 +3,11 @@
 'use client';
 import CompaniesSection from '@/components/business/businessSeccion';
 import { useEffect, useState } from "react";
-import { getCompanyByOwnerId } from "@/services/business";
+import {businessService} from "@/services/business";
 // import { useAuth } from '@/context/authContext';
 // import CompaniesSection from "@/components/CompaniesSection";
 import { useSession } from 'next-auth/react';
+import { Business } from '@/types/business';
 
 
 interface Company {
@@ -30,18 +31,21 @@ const CompaniesPage: React.FC<CompaniesPageProps> = () => {
 
   const {data} = useSession();
 
+
   if(data && data.user) {
     // @ts-ignore
-    ownerId = data.user.data.user.id;
+    ownerId = data.user.id;
     // @ts-ignore
-    token = data.user.data.token;
+    // token = data.accessToken;
   }
 
   // console.log(ownerId)
  const fetchCompanies = async () => {
       try {
-        const data = await getCompanyByOwnerId(ownerId, token);
-        setBusiness(data.data);
+        const data: Business[] = await businessService.getAll();
+        // console.log("Empresas obtenidas:", data);
+      // @ts-expect-error
+        setBusiness(data);        
       } catch (error) {
         console.error("Error fetching companies:", error);
       }

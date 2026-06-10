@@ -1,5 +1,7 @@
+import { connection } from 'next/server'
 import LoginForm from '@/components/authComponents/LoginForm';
 
-export default function LoginPage() {
+export default async function LoginPage() {
+   await connection()
   return <LoginForm />;
 }

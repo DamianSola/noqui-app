@@ -2,26 +2,47 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import EditBusinessForm from "@/components/forms/EditBusinessForm";
-import {getBusinessById} from "@/services/business";
+import { businessService} from "@/services/business";
+// import type { Business } from "@/types/business.ts";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
+
+interface Business {
+  id: string;
+  name: string;
+  guests: any[];
+  owner: string;
+} 
+
+// interface ResponseData {
+//   id: string;
+//   name: string;
+//   guests: any[];
+//   owner: string;
+// }
+
 export default function EditBusinessPage({ params }: PageProps) {
      const { id } = React.use(params);
   
-  const [business, setBusiness] = useState({ id: '', name: '', guests: [] , owner: ''});
+  const [business, setBusiness] = useState<Business>({ id: '', name: '', guests: [] , owner: ''});
 
     const fetchBusiness = async () => {
         // console.log("Fetching business with id:", id);
-      const data = await getBusinessById(id);
-      console.log("Fetched business data:", data.data);
+
+      const data : Business | any = await businessService.getById(id);
+
+        if (!data) {
+          console.log("Fetched business data:", data);
+          throw new Error(`Business with id ${id} not found`);
+        }
       
       setBusiness({
-        id: data.data.id,
-        name: data.data.name,
-        guests: data.data.guests || [],
-        owner: data.data.owner.name || ''
+        id: data.id,
+        name: data.name,
+        guests: data.guests,
+        owner: data.owner
       });
     }
   useEffect(() => {

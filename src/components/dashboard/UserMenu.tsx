@@ -3,6 +3,7 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useState, useRef, useEffect } from 'react';
 import { User, Settings, LogOut, ChevronDown } from 'lucide-react';
+// import {authService} from "@/services/authService";
 
 export default function UserMenu() {
   const { data: session } = useSession();
@@ -22,6 +23,12 @@ export default function UserMenu() {
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/auth/login' });
+    // authService.logout().then(() => {
+    //   signOut({ callbackUrl: '/auth/login' });
+    // }).catch((error) => {
+    //   console.error('Error during logout:', error);
+    //   signOut({ callbackUrl: '/auth/login' });
+    // });
   };
 
   return (

@@ -4,13 +4,12 @@
 
 import { useState } from 'react';
 import Sidebar from '../../components/dashboard/Sidebar';
-// import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { ThemeProvider } from '../ThemeProvider';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-// import Sidebar from '@/components/dashboard/Sidebar';
 import Header from '@/components/dashboard/Header';
-import { ThemeProvider } from '../ThemeProvider';
+
 
 export default function DashboardLayout({
   children,
@@ -21,14 +20,25 @@ export default function DashboardLayout({
     const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // const data = new Promise((resolve) => {
+  //   getSession().then((sessionData) => {
+  //     resolve(sessionData);
+  //   });
+  // }).then((session) => {
+  //   console.log('Session data inside Promise:', session);
+  //   return session;
+  // });
+
+
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/auth/login');
     }
-  }, [status, router]);
+  }, [status, router, session]);
 
   if (status === 'loading') {
     return (
+
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>

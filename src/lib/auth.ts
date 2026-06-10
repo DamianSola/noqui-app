@@ -31,31 +31,30 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
-      // Agregar datos del usuario al token cuando inicia sesión
-      if (user) {
-        token.User = user;
-      }
+  async jwt({ token, user, trigger, session }) {
+    // Solo se ejecuta en el login inicial (user viene populado)
+    if (user) {
+      const payload = user as any; // tipado según tu respuesta de API
 
-      // Actualizar token si se actualiza la sesión
-      if (trigger === "update" && session) {
-        token.user = { ...token.user, ...session };
-      }
+      token.accessToken = payload.data.token;
+      token.user = payload.data.user; // { id, email, name, role }
+    }
 
-      return token;
-    },
-    async session({ session, token }) {
-      // Enviar datos del usuario a la sesión
-      session.user = token.User as any;
-      
-      // Agregar token de acceso a la sesión si está disponible
-      if (token.user?.token) {
-        session.accessToken = token.user.token;
-      }
-      
-      return session;
-    },
+    // Actualizar si se dispara session.update()
+    if (trigger === "update" && session) {
+      token.user = { ...token.user, ...session };
+    }
+
+    return token;
   },
+
+  async session({ session, token }) {
+    session.accessToken = token.accessToken as string;
+    session.user = token.user as any; // { id, email, name, role }
+
+    return session;
+  },
+},
   pages: {
     signIn: "/auth/login",
     newUser: "/auth/register",

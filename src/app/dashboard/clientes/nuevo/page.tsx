@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { getCompanyByOwnerId } from '@/services/business';
+import { businessService } from '@/services/business';
+import {addCustomer} from '@/services/customer';
 
 interface Business {
   id: string;
@@ -27,14 +28,12 @@ export default function NuevoClientePage() {
   const [success, setSuccess] = useState<string | null>(null);
 
   // OwnerId por defecto desde el usuario logueado
-  let token: string | undefined = undefined;
   let ownerId: string = "ID_DEL_USUARIO_LOGUEADO";
 
   if(data && data.user) {
     // @ts-ignore
-    ownerId = data.user.data.user.id;
+    ownerId = data.user.id;
     // @ts-ignore
-    token = data.user.data.token;
   }
 
   useEffect(() => {
@@ -50,8 +49,8 @@ export default function NuevoClientePage() {
     const fetchBusinesses = async () => {
       try {
         setLoadingBusinesses(true);
-        const res = await getCompanyByOwnerId(ownerId, token);
-        const list: Business[] = res.data || [];
+        const res = await businessService.getAll();
+        const list: Business[] = res || [];
         console.log("Fetched businesses:", list);
         setBusinesses(list);
 
@@ -82,7 +81,11 @@ export default function NuevoClientePage() {
       setSelectedBusinessId(e.target.value);
     }
 
-}
+  }
+
+  const handleCancel = () => {
+    router.push('/dashboard/clientes');
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,16 +110,26 @@ export default function NuevoClientePage() {
     try {
       setSubmitting(true);
 
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/customers`,
-        {
-          name: name.trim(),
-          email: email.trim(),
-          phone: phone.trim() || null,
-          businessId: selectedBusinessId,
-          ownerId,
-        }
-      );
+      const res = await addCustomer({
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim() || null,
+        businessId: selectedBusinessId,
+        ownerId,
+      });
+
+      // const res = await axios.post(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/customers`,
+      //   {
+      //     name: name.trim(),
+      //     email: email.trim(),
+      //     phone: phone.trim() || null,
+      //     businessId: selectedBusinessId,
+      //     ownerId,
+      //   }
+      // );
+
+      console.log('Create customer response:', res);
 
       if (res.data?.success) {
         setSuccess('Cliente creado correctamente');
@@ -126,7 +139,7 @@ export default function NuevoClientePage() {
         setPhone('');
 
         // Opcional: redirigir a la lista de clientes
-        // router.push('/dashboard/clientes');
+        router.push('/dashboard/clientes');
       } else {
         setError(res.data?.error || 'Error al crear el cliente');
       }
@@ -272,6 +285,7 @@ export default function NuevoClientePage() {
                    text-gray-700 dark:text-gray-300 
                    px-4 py-2 rounded-md text-sm font-medium 
                    hover:bg-gray-100 dark:hover:bg-gray-800"
+        onClick={handleCancel}
       >
         Cancelar
       </button>

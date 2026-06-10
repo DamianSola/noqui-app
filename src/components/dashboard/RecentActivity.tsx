@@ -2,6 +2,8 @@
 
 import { CheckCircle, XCircle, Clock, AlertTriangle } from 'lucide-react';
 
+/// eliminar esta module
+
 const activities = [
   {
     id: 1,

@@ -1,7 +1,11 @@
 // components/ui/ProtectedRoute.tsx
 "use client";
-import { useAuth } from "@/hooks/useAuth";
+// import  {useAuth }  from "@/hooks/useAuth";
+
+
+// import { useAuth } from '@/context/authContext';
 import { useRouter } from "next/navigation";
+import {useSession} from 'next-auth/react';
 import { useEffect } from "react";
 
 interface ProtectedRouteProps {
@@ -13,7 +17,15 @@ export default function ProtectedRoute({
   children, 
   fallback = null 
 }: ProtectedRouteProps) {
-  const { isAuthenticated, isLoading } = useAuth();
+  // const { isAuthenticated, isLoading } = useAuth();
+
+  const { data: session, status } = useSession();
+
+  console.log("ProtectedRoute - session:", session, "status:", status);
+  const isAuthenticated = status === 'authenticated';
+  const isLoading = status === 'loading';
+
+  console.log("ProtectedRoute - isAuthenticated:", isAuthenticated, "isLoading:", isLoading);
   const router = useRouter();
 
   useEffect(() => {

@@ -35,15 +35,15 @@ export default function ClientesPage() {
 
   if(data && data.user) {
     // @ts-ignore
-    ownerId = data.user.data.user.id;
+    ownerId = data.user.id;
     // @ts-ignore
-    token = data.user.data.token;
+    // token = data.user.data.token;
   }
 
   const fetchClientes = async () => {
     setLoading(true);
     try {
-      const data = await getCustomerbyOwner(ownerId, token)
+      const data = await getCustomerbyOwner(ownerId)
       setClientes(data.data);
       setLoading(false);
     } catch (error) {
